@@ -17,17 +17,13 @@ def released_albums():
 
 
 def longest_song():
-    second_task = db_connect(db).execute("""SELECT track_name, duration FROM track;
+    second_task = db_connect(db).execute("""SELECT track_name, duration FROM track
+    WHERE duration = (
+        SELECT MAX (duration)
+        FROM track
+    );
     """).fetchall()
-    counter = 0
-    most_long_track = second_task[0][0]
-    duration = second_task[0][1]
-    while counter < len(second_task):
-        if duration < second_task[counter][1]:
-            most_long_track = second_task[counter][0]
-            duration = second_task[counter][1]
-        counter += 1
-    print(f"The longest song name is '{most_long_track}', its duration is {duration} min")
+    print(f"The longest song name is '{second_task[0][0]}', its duration is {second_task[0][1]} min")
 
 
 def long_tracks():
